@@ -567,13 +567,29 @@ remove_action('wp_head', 'rsd_link');
 
 if (function_exists('acf_add_options_page')) {
   acf_add_options_page(array(
-    'page_title' => 'Страница настроек темы',
-    'menu_title' => 'Настройки темы',
+    'page_title' => 'Theme settings page',
+    'menu_title' => 'Theme settings',
     'menu_slug' => 'theme-general-settings',
     'capability' => 'edit_posts',
     'redirect' => false
   ));
 }
+
+function add_additional_class_on_li($classes, $item, $args)
+{
+  if (isset($args->add_li_class)) {
+    $classes[] = $args->add_li_class;
+  }
+  return $classes;
+}
+add_filter('nav_menu_css_class', 'add_additional_class_on_li', 1, 3);
+
+function add_menuclass($ulclass)
+{
+  return preg_replace('/<a /', '<a class="header__menuListItemLink"', $ulclass);
+}
+add_filter('wp_nav_menu', 'add_menuclass');
+
 
 
 

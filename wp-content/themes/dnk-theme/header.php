@@ -25,38 +25,48 @@
         <div class="inner">
           <div class="header__inner">
             <div class="header__logoWrap">
-              <a href="/" class="header__logoLink">
-                <img src="<?php bloginfo('template_url'); ?>/images/logo.svg" alt="PayLite logo" class="header__logo">
-              </a>
+              <?php if (is_front_page()) : ?>
+                <div class="header__logoLink">
+                  <img src="<?php bloginfo('template_url'); ?>/images/logo.svg" alt="PayLite logo" class="header__logo">
+                </div>
+              <?php else : ?>
+                <a href="<?php echo esc_url(home_url('/')); ?>" class="header__logoLink">
+                  <img src="<?php bloginfo('template_url'); ?>/images/logo.svg" alt="PayLite logo" class="header__logo">
+                </a>
+              <?php endif; ?>
             </div>
             <nav class="header__menuWrap js-menu">
               <button class="header__menuBtnClose js-menu-btn-close">
                 <img src="<?php bloginfo('template_url'); ?>/images/close.svg" alt="Close button" class="header__menuBtnCloseIcon">
               </button>
               <a href="tel:(305)363-4678" class="header__menuPhone">(305)363-4678</a>
-              <ul class="header__menuList">
-                <li class="header__menuListItem">
-                  <a href="/" class="header__menuListItemLink">Home</a>
-                </li>
-                <li class="header__menuListItem">
-                  <a href="/" class="header__menuListItemLink">Programs</a>
-                </li>
-                <li class="header__menuListItem">
-                  <a href="/" class="header__menuListItemLink">Equipment</a>
-                </li>
-                <li class="header__menuListItem">
-                  <a href="/" class="header__menuListItemLink">Capital</a>
-                </li>
-                <li class="header__menuListItem">
-                  <a href="/" class="header__menuListItemLink">Contact Us</a>
-                </li>
-                <li class="header__menuListItem">
-                  <a href="/" class="header__menuListItemLink">Support </a>
-                </li>
-              </ul>
+
+              <?php
+              wp_nav_menu(array(
+                'theme_location'  => 'primary',
+                'menu'            => 'main-menu',
+                'container'       => '',
+                'container_class' => '',
+                'container_id'    => '',
+                'menu_class'      => 'header__menuList',
+                'menu_id'         => '',
+                'echo'            => true,
+                'fallback_cb'     => 'wp_page_menu',
+                'before'          => '',
+                'after'           => '',
+                'link_before' => '',
+                'link_after'  => '',
+                'items_wrap'      => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                'add_li_class'  => 'header__menuListItem',
+                'link_class'   => 'header__menuListItemLink',
+                'depth'           => 0,
+                'walker'          => '',
+              ));
+              ?>
             </nav>
+            <?php $phone = get_field('phone', 'option') ?>
             <div class="header__phoneWrapper">
-              <a href="tel:(305)363-4678" class="header__phone"><span class="header__phoneText">(305)363-4678</span><img class="header__phoneIcon" src="<?php bloginfo('template_url'); ?>/images/phone.svg" alt="Phone icon"></a>
+              <a href="tel:<?php echo $phone; ?>" class="header__phone"><span class="header__phoneText"><?php echo $phone; ?></span><img class="header__phoneIcon" src="<?php bloginfo('template_url'); ?>/images/phone.svg" alt="Phone icon"></a>
             </div>
             <div class="header__menuBtnWrapper js-menu-btn-open">
               <button class="header__menuBtn">
